@@ -16,6 +16,6 @@ class CustomUserJSONRenderer(JSONRenderer):
         if access_token is not None and isinstance(access_token, bytes):
             data['access_token'] = access_token.decode('utf-8')
 
-        return json.dumps({
-            'user': data
-        })
+        return json.dumps(
+            data
+        )
