@@ -37,17 +37,13 @@ class JWTAuthentication(authentication.BaseAuthentication):
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
         except Exception:
-            msg = 'Ошибка аутентификации. Невозможно декодировать токен'
+            msg = 'Токен испорчен'
             raise exceptions.AuthenticationFailed(msg)
 
         try:
             user = CustomUser.objects.get(pk=payload['id'])
         except CustomUser.DoesNotExist:
             msg = 'Пользователь соответствующий данному токену не найден.'
-            raise exceptions.AuthenticationFailed(msg)
-
-        if datetime.datetime.fromtimestamp(payload['exp']) < datetime.datetime.now():
-            msg = 'Токен просрочен'
             raise exceptions.AuthenticationFailed(msg)
 
         return user, token
