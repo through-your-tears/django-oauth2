@@ -137,3 +137,10 @@ REST_FRAMEWORK = {
         'authorization.backends.JWTAuthentication',
     ),
 }
+
+TOKEN_LIFETIME = {
+    'seconds': 0,
+    'minutes': 0,
+    'hours': 2,
+    'days': 0
+}

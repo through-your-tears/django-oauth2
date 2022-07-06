@@ -6,7 +6,12 @@ import jwt
 
 
 def generate_jwt(pk):
-    dt = datetime.datetime.now(tz=pytz.timezone('Europe/Moscow')) + datetime.timedelta(seconds=20)
+    dt = datetime.datetime.now(tz=pytz.timezone('Europe/Moscow')) + datetime.timedelta(
+        seconds=settings.TOKEN_LIFETIME['seconds'],
+        minutes=settings.TOKEN_LIFETIME['minutes'],
+        hours=settings.TOKEN_LIFETIME['hours'],
+        days=settings.TOKEN_LIFETIME['days']
+    )
     token = jwt.api_jwt.encode({
         'id': pk,
         'exp': dt,
