@@ -41,7 +41,7 @@ class RegistrationAPIView(APIView):
     renderer_classes = (CustomUserJSONRenderer,)
 
     def post(self, request):
-        user = request.data.get('user', {})
+        user = request.data
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -54,7 +54,7 @@ class LoginAPIView(APIView):
     renderer_classes = (CustomUserJSONRenderer,)
 
     def post(self, request):
-        user = request.data.get('user', {})
+        user = request.data
 
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
@@ -72,7 +72,7 @@ class CustomUserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def update(self, request, *args, **kwargs):
-        serializer_data = request.data.get('user', {})
+        serializer_data = request.data
         serializer = self.serializer_class(
             request.user, data=serializer_data, partial=True
         )
