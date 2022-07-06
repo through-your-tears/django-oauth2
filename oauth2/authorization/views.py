@@ -27,10 +27,8 @@ class RefreshView(APIView):
         user.refresh_token = generate_rt()
         user.save(update_fields=('refresh_token',))
         data = {
-            'user': {
                 'access_token': generate_jwt(user.pk),
                 'refresh_token': user.refresh_token
-            }
         }
         return Response(data, status=status.HTTP_200_OK)
 
