@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'authorization',
     'corsheaders',
     'rest_framework',
+    'drf_yasg',
     'jwt',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -131,6 +132,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'EXCEPTION_HANDLER': 'oauth2.exceptions.core_exception_handler',
     'NON_FIELD_ERRORS_KEY': 'error',
     'DEFAULT_AUTHENTICATION_CLASSES': (

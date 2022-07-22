@@ -1,3 +1,5 @@
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from rest_framework import status
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -14,8 +16,17 @@ from .token_generators import generate_rt, generate_jwt
 
 
 class RefreshView(APIView):
+    """
+    Refreshing old access token
+    """
     permission_classes = (AllowAny,)
 
+    @swagger_auto_schema(request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'access_token': openapi.Schema(type=openapi.TYPE_STRING, description='access_token for get refresh_token'),
+        }
+    ))
     def post(self, request):
         try:
             refresh_token = request.data.get('refresh_token')
@@ -38,6 +49,13 @@ class RegistrationAPIView(APIView):
     serializer_class = RegistrationSerializer
     renderer_classes = (CustomUserJSONRenderer,)
 
+    @swagger_auto_schema(request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'email': openapi.Schema(type=openapi.TYPE_STRING, description='email - using like username'),
+            'password': openapi.Schema(type=openapi.TYPE_STRING, description='user password')
+        }
+    ))
     def post(self, request):
         user = request.data
         serializer = self.serializer_class(data=user)
@@ -51,6 +69,13 @@ class LoginAPIView(APIView):
     serializer_class = LoginSerializer
     renderer_classes = (CustomUserJSONRenderer,)
 
+    @swagger_auto_schema(request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'email': openapi.Schema(type=openapi.TYPE_STRING, description='email - using like username'),
+            'password': openapi.Schema(type=openapi.TYPE_STRING, description='user password')
+        }
+    ))
     def post(self, request):
         user = request.data
 
