@@ -25,8 +25,19 @@ class RefreshView(APIView):
         type=openapi.TYPE_OBJECT,
         properties={
             'access_token': openapi.Schema(type=openapi.TYPE_STRING, description='access_token for get refresh_token'),
+        },
+        required=['access_token']
+    ),
+        responses={
+            status.HTTP_200_OK: openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'access_token': openapi.Schema(type=openapi.TYPE_STRING),
+                    'refresh_token': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            ),
         }
-    ))
+    )
     def post(self, request):
         try:
             refresh_token = request.data.get('refresh_token')
@@ -55,7 +66,18 @@ class RegistrationAPIView(APIView):
             'email': openapi.Schema(type=openapi.TYPE_STRING, description='email - using like username'),
             'password': openapi.Schema(type=openapi.TYPE_STRING, description='user password')
         }
-    ))
+    ),
+        responses={
+            status.HTTP_200_OK: openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'email': openapi.Schema(type=openapi.TYPE_STRING),
+                    'access_token': openapi.Schema(type=openapi.TYPE_STRING),
+                    'refresh_token': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            ),
+        }
+    )
     def post(self, request):
         user = request.data
         serializer = self.serializer_class(data=user)
@@ -74,8 +96,19 @@ class LoginAPIView(APIView):
         properties={
             'email': openapi.Schema(type=openapi.TYPE_STRING, description='email - using like username'),
             'password': openapi.Schema(type=openapi.TYPE_STRING, description='user password')
+        },
+    ),
+        responses={
+            status.HTTP_200_OK: openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'email': openapi.Schema(type=openapi.TYPE_STRING),
+                    'access_token': openapi.Schema(type=openapi.TYPE_STRING),
+                    'refresh_token': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            ),
         }
-    ))
+    )
     def post(self, request):
         user = request.data
 
